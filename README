@@ -1,0 +1,49 @@
+Watch On Box Google Chrome extension for Syabas Popcorn Hour (A-200). <ab33@gmx.com>
+
+1. Instructions for packed version.
+2. Instructions for unpacked version.
+3. Usage instructions.
+4. Permissions.
+
+
+1. Instructions for packed version.
+
+	* In Chrome browser click on URL that points to .CRX file.
+
+2. Instructions for unpacked version.
+
+How to install:
+--------------
+In Google Chrome:
+	* _go_to_ "Options"
+	* _select_tab_ "Extensions"
+	* _click_checkbox_ "Developer mode"
+	* _press_button_ "Load unpacked extension.."
+	* _point_to_ a directory with unpacked extension
+	* _observe_ tv-set like action icon in browser's tab
+	* done
+
+
+3. Usage instructions.
+
+How to use:
+----------
+	
+	! IMPORTANT: in the extension's Options page set your Popcorn box's IP address,
+
+	* Right click on direct link to some video file and select "Watch on Box" from
+	  the context menu,
+	* "Watch Now" sub-option sends the link to Popcorn box and adds it into the history,
+	* "Throw at list" sub-option simply adds the link into the history,
+	* "Glance at" sub-option just sends the link to Popcorn box,
+	* Use "Url:" input field to enter video URL manually,
+	* Use simple RC (activated/deactivated by "Ctrl" key) to control your box.
+
+
+Hints:
+-----
+	* No checking of URLs is performed - please use dicrect links to video,
+	* RC supports shorcuts for entering characters in an input fields on the box,
+
+
+4. Permissions.
