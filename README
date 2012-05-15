@@ -47,3 +47,6 @@ Hints:
 
 
 4. Permissions.
+
+	* "Your data on all websites" - required for extending of context menus on a page (guessing),
+	* "Your tabs and browsing activity" - required for opening a page in a new tab from the history.
