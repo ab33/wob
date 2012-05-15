@@ -1,0 +1,75 @@
+<html>
+<head>
+<title>Watch on Box - config</title>
+
+<script src="abns.js" charset="utf-8" type="text/javascript"></script>
+
+<style>
+.main  { margin-left: 150px; }
+
+body {
+    color: #BBBBBB;
+    background-color: #F5F5F5;
+    text-decoration:none;
+    font-family:"Arial", Arial, Sans-serif;
+    font-size: 10pt;
+    white-space:nowrap;
+}
+
+p {
+    background-color: #FAFAFA;
+}
+
+p.top {
+    color: #333333;
+    font-weight: bold;
+    font-size: 14pt;
+    background-color: #F5F5F5;
+}
+</style>
+
+<script>
+
+window.onload = function() {
+    var box_addr = document.getElementById('box-addr');
+    box_addr.value = abns.Config.ref().get(abns.Config.BOX_ADDRESS);
+    box_addr.focus();
+    box_addr.onchange = function() {
+        if (!this.value.length) {
+            this.value=abns.Config.ref().get(abns.Config.BOX_ADDRESS);
+        } else {
+            abns.Config.ref().set(abns.Config.BOX_ADDRESS, this.value);
+        }
+    }
+
+    var wh_size = document.getElementById('wh-size');
+    wh_size.value = abns.Config.ref().get(abns.Config.HISTORY_SIZE);
+    wh_size.onchange = function() {
+        if (this.value.length && this.value > 0) {
+            abns.Config.ref().set(abns.Config.HISTORY_SIZE, this.value);
+            abns.WatchHistory.ref().setSize(this.value);
+        } else {
+            this.value = abns.Config.ref().get(abns.Config.HISTORY_SIZE);
+        }
+    }
+
+    document.getElementById("ok").onclick = function() { window.close(); }
+}
+
+</script>
+
+</head>
+<body>
+
+<div class="main">
+<p class="top">Watch on Box - config:</p>
+
+<p><label>Box network address: http://<input id="box-addr" size="32" /> - example: 192.168.1.2</label></p>
+
+<p><label>History size: <input id="wh-size" size="5" /></label></p>
+
+<p><button id="ok"> Close </button></p>
+</div>
+
+</body>
+</html>

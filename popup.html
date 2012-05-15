@@ -1,0 +1,562 @@
+<html>
+<head>
+<script src="abns.js" charset="utf-8" type="text/javascript"></script>
+
+<style>
+
+body {
+    min-width: 700px;
+    max-width: 700px;
+    overflow: hidden;
+    white-space: nowrap;
+    margin: 0;
+	height: 550px;
+    text-decoration: none;
+    font-family: sans-serif;
+    font-size: 8pt;
+    color: #999999;
+    text-align: left; }
+
+div.c_c0 {
+	position: absolute;
+	z-index: 555;
+	left: -300px;
+    margin: 0; }
+
+div.c_l1 {
+	display: inline-block;
+	float: left;
+	width: 340px;
+	height: 550px;
+    margin: 0;
+    background-color: #F5F5F5;
+    border-radius: 10px; }
+
+div.c_r1 {
+	display: inline-block;
+	width: 645px;
+	height: 540px;
+    margin: 0px 0px 0px 5px;
+	padding: 5px;
+    background-color: #FAFAFA;
+    border-radius: 10px; }
+
+div.c_r1_hdr {
+	margin: 0px 2px 0px 2px;
+	padding: 5px;
+    background-color: #FCFCFC;
+    border-radius: 5px 5px 0px 0px; }
+
+div.c_r1_url {
+	margin: 0px 2px 0px 2px;
+	padding: 5px;
+    background-color: #FCFCFC;
+    border-radius: 0px 0px 5px 5px; }
+
+div.c_r1_wh {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 473px;
+    background-color: #FAFAFA;
+	padding: 0px 2px 2px 0px;
+	margin: 5px 0px 2px 0px;
+	border: 0px solid #BBBBBB; }
+
+::-webkit-scrollbar { width: 10px; }
+
+::-webkit-scrollbar-track-piece { background-color: #EEEEEE; }
+
+::-webkit-scrollbar-thumb:vertical {
+	height: 50px;
+	background: #E5E5E5;
+	border: 2px solid #DADADA; }
+
+input.in_url {
+	border: 1px solid #BBBBBB;
+    background-color: #FBFBFB;
+    font-size: 11px;
+    color: #999999; }
+
+input.in_url:hover {
+    color: #AAAAAA;
+    background-color: #FFFF00; }
+
+input.in_url_btn {
+	border: 0px solid #BBBBBB;
+    background-color: #FFDDDD;
+    color: #DD7777;
+    font-weight: bold;
+    font-size: 11px; }
+
+input.in_url_btn:hover {
+    color: #AAAAAA;
+    background-color: #FFFF00; }
+
+input.in_url_btn2 {
+	border: 0px solid #BBBBBB;
+    background-color: #FFDDDD;
+    color: #BBBBBB;
+    font-size: 11px; }
+
+input.in_url_btn2:hover {
+    color: #AAAAAA;
+    background-color: #FFFF00; }
+
+p.wh_item1 {
+    text-align: left;
+    background-color: #FFDDDD;
+    padding: 0px 2px 8px 2px;
+    margin: 2px;
+    border: 2px solid #FFCCCC; }
+
+p.wh_item {
+    text-align: left;
+    background-color: #FAFAFA;
+    padding: 2px;
+    margin: 2px;
+    border: 2px solid #F0F0F0; }
+
+a.play2 {
+    font-size: 10pt;
+    font-weight: bold;
+    color: #9999DD; }
+
+a.play2:hover {
+    color: #AAAAAA;
+    background-color: #FFFF00; }
+
+a.play2:visited {
+    color: #AAAAAA; }
+
+a.title {
+    font-size: 8pt;
+    color: #999999; }
+
+a.title:hover {
+    color: #AAAAAA;
+    background-color: #FFFF00; }
+
+a.title:visited { color: #AAAAAA; }
+
+div.c_l1_tumbler {
+	float: right;
+	border: 2px solid #F0F0F0;
+	margin: 10px 5px 5px 5px;
+	padding: 5px 0px 5px 0px;
+    background-color: #FAFAFA;
+    border-radius: 5px; }
+
+a.c_l1_tumbler {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    color: #F0F0F0;
+	padding: 5px 5px 5px 5px; }
+
+a.c_l1_tumbler:hover { background-color: #FFFF00; }
+
+input.c_rc_key {
+	width: 60px;
+	font-size: 9px;
+    background-color: #AAAAAA;
+    color: #F5F5F5;
+	position: absolute;
+	z-index: 566;
+	left: 0px;
+	top: 0px;
+    margin: 0px;
+	padding: 2px;
+	border-width: 2px;
+	border-style: solid;
+	border-left-color: #DDDDDD;
+	border-top-color: #DDDDDD;
+	border-right-color: #888888;
+	border-bottom-color: #888888;
+    border-radius:10px; }
+
+input.c_rc_key:hover { background-color: #777777; }
+
+input.c_rc_key:active {
+    background-color: #888888;
+	border-left-color: #CCCCCC;
+	border-top-color: #CCCCCC;
+	border-right-color: #777777;
+	border-bottom-color: #777777; }
+
+</style>
+
+<script>
+
+var URL_LIMIT = 93;
+var TITLE_LIMIT = 95;
+
+abns.Config.BOX_RC  = 'box_rc';
+abns.Config.ref().initialize(abns.Config.BOX_RC, 'off');	// on/off
+
+var rc_keys = new Array();
+var rc_keys_ready = false;
+
+function prepareString(str, limit) {
+    return (str.length > limit)
+        ? str.substring(0, limit - 3) + '...'
+        : str;
+}
+
+///
+
+function inUrlKeyPress(e) {
+	var key = e.keyCode || e.which;
+	if (key == 13) {
+		inUrlWatch();
+	}
+}
+
+function inUrlWatch(f) {
+	var url = document.getElementById('input_url').value.trim();
+	if (url.length) {
+		if (f != 2) {
+		    abns.WatchHistory.ref().put(url, '', '>>MANUAL<<');
+			updateWatchHistoryView();
+		}
+		if (f != 1) {
+			abns.WatchControl.chrome_watchNow(url);
+		}
+		if (f == 2) {
+		}
+	}
+	document.getElementById('input_url').value = '';
+}
+
+///
+
+function openInTab(link) {
+    chrome.tabs.create({url: link});
+}
+
+function removeById(id) {
+    abns.WatchHistory.ref().removeById(id);
+	updateWatchHistoryView();
+}
+
+function removeAll() {
+    if (confirm("Are you sure?")) {
+        abns.WatchHistory.ref().removeAll();
+		updateWatchHistoryView();
+    }
+}
+
+function watchById(id) {
+    var item = abns.WatchHistory.ref().getById(id);
+    abns.WatchHistory.ref().removeById(id);
+    abns.WatchHistory.ref().put(item['url'], item['page'], item['title']);
+	updateWatchHistoryView();
+    abns.WatchControl.chrome_watchNow(item['url']);
+}
+
+///
+
+function main() {
+
+	document.getElementById('b_r1_hdr').innerHTML =
+		'<span style="font-weight:bold;">Box network address: '
+		+ prepareString(abns.Config.ref().get(abns.Config.BOX_ADDRESS), 33)
+		+ '</span>';
+
+	document.getElementById('b_r1_url').innerHTML =
+		'<span style="padding:0px 4px 5px 4px; font-weight:bold;">URL: <input id="input_url" type="text" name="url" value="" class="in_url" size="85" onkeypress="inUrlKeyPress(event)">'
+		+ '<input type="button" value="watch" class="in_url_btn" onclick="inUrlWatch(0);"><input type="button" value="throw" class="in_url_btn2" onclick="inUrlWatch(1);"><input type="button" value="glance" class="in_url_btn2" onclick="inUrlWatch(2);">'
+		+ '</span>';
+
+	updateRcPane();
+	updateWatchHistoryView();
+}
+
+function updateWatchHistoryView() {
+	document.getElementById('b_r1_wh').innerHTML = prepareWatchHistory();
+}
+
+function prepareWatchHistory() {
+	var text = "";
+	var arr = abns.WatchHistory.ref().getAsArray();
+
+    if (arr.length) {
+
+		var item;
+		var no = 0;
+
+		var tpl  = '<p class="wh_item%~TOP~%"><a href="javascript:watchById(%~ID~%);" class="play2">Watch Now</a> @: <a href="javascript:openInTab(\'%~PAGE~%\');" class="title">%~TITLE-P~%</a><br><a href="javascript:openInTab(\'%~URL~%\');" class="title">open in browser</a> / <a href="javascript:removeById(%~ID~%);" class="title">remove</a> <span style="color:#C0C0C0;">%~URL-P~%</span> <a href="%~URL~%" class="title" onclick="javascript:return false;">&gt;</a></p>';
+
+		while (item = arr.shift()) {
+			no++;
+
+			if (item['title'] == '>>MANUAL<<') {
+				item['title'] = '#';
+				item['page']  = '#';
+			}
+
+			var url_p   = prepareString(item['url'], URL_LIMIT);
+			var page_p  = prepareString(item['page'], URL_LIMIT);
+			var title_p = prepareString(item['title'], TITLE_LIMIT);
+
+			var str = tpl;
+
+			str = str.replace(/%~TOP~%/g     , no == 1 ? '1' : '');
+			str = str.replace(/%~ID~%/g      , item['id']);
+			str = str.replace(/%~URL~%/g     , item['url']);
+			str = str.replace(/%~URL-P~%/g   , url_p);
+			str = str.replace(/%~PAGE~%/g    , item['page']);
+			str = str.replace(/%~PAGE-P~%/g  , page_p);
+			str = str.replace(/%~TITLE~%/g   , item['title']);
+			str = str.replace(/%~TITLE-P~%/g , title_p);
+
+			text += str;
+		}
+
+    } else {
+		text = '<center>Please use right-click context menu on a video link..</center>';
+    }
+
+	return text;
+}
+
+///
+
+function toggleTumbler() {
+	abns.Config.ref().set(abns.Config.BOX_RC,
+		(abns.Config.ref().get(abns.Config.BOX_RC) == 'on') ? 'off' : 'on');
+	updateRcPane();
+	return false;
+}
+
+function updateRcPane() {
+	var e = document.getElementById('b_c0');
+	var t = document.getElementById('a_l1_tumbler');
+	var i = document.getElementById('input_url');
+
+	if (abns.Config.ref().get(abns.Config.BOX_RC) == 'on') {
+		e.style.left = 0;
+		t.innerHTML = '<<';
+		i.disabled = true;
+		rcKeysReady();
+	} else {
+		e.style.left = -300;
+		t.innerHTML = '>>';
+		i.disabled = false;
+	}
+}
+
+function rcKeysReady() {
+	if (rc_keys_ready) return;
+	rc_keys_ready = true;
+
+	var x  = 15;
+	var y  = 20;
+
+	//            l,        t,       rc_key,      rc_label,        kbd_label,     kbd_code,  alt,domain
+	//--
+	renderRcKey(x + 50  , y + 20  , 'power'		, 'Power'		, 'Shift+P'		, 80		, 1, null);
+	renderRcKey(x + 120 , y + 20  , 'setup'		, 'Setup'		, 'Shift+S'		, 83		, 0, null);
+	renderRcKey(x + 190 , y + 20  , 'eject'		, 'Eject'		, 'Shift+E'		, 69		, 2, null);
+	//--
+	renderRcKey(x + 25  , y + 60  , 'home'		, 'Home'		, 'Home'		, 36  + 1000, 0, null);
+	renderRcKey(x + 90  , y + 60  , 'delete'	, 'Delete'		, 'Del'			, 46  + 1000, 0, null);
+	renderRcKey(x + 155 , y + 60  , 'filemode'	, 'File Mode'	, 'F4'			, 115 + 1000, 0, null);
+	renderRcKey(x + 219 , y + 60  , 'caps/num'	, 'Caps/Num'	, 'F12'			, 123 + 1000, 0, null);
+	//--
+	renderRcKey(x + 25  , y + 100 , 'red'		, 'VIDEO'		, 'F8'			, 119 + 1000, 1, null);
+	renderRcKey(x + 90  , y + 100 , 'green'		, 'MUSIC'		, 'F9'			, 120 + 1000, 4, null);
+	renderRcKey(x + 155 , y + 100 , 'yellow'	, 'PHOTO'		, 'F10'			, 121 + 1000, 5, null);
+	renderRcKey(x + 219 , y + 100 , 'blue'		, 'ALL'			, 'F11'			, 122 + 1000, 2, null);
+	//--
+	renderRcKey(x + 25  , y + 140 , 'zero'		, '0%'			, '0'			, 48		, 6, null);
+	renderRcKey(x + 51  , y + 140 , 'one'		, '10%'			, '1'			, 49		, 6, null);
+	renderRcKey(x + 77  , y + 140 , 'two'		, '20%'			, '2'			, 50		, 6, null);
+	renderRcKey(x + 103 , y + 140 , 'three'		, '30%'			, '3'			, 51		, 6, null);
+	renderRcKey(x + 129 , y + 140 , 'four'		, '40%'			, '4'			, 52		, 6, null);
+	renderRcKey(x + 155 , y + 140 , 'five'		, '50%'			, '5'			, 53		, 6, null);
+	renderRcKey(x + 180 , y + 140 , 'six'		, '60%'			, '6'			, 54		, 6, null);
+	renderRcKey(x + 205 , y + 140 , 'seven'		, '70%'			, '7'			, 55		, 6, null);
+	renderRcKey(x + 230 , y + 140 , 'eight'		, '80%'			, '8'			, 56		, 6, null);
+	renderRcKey(x + 255 , y + 140 , 'nine'		, '90%'			, '9'			, 57		, 6, null);
+	//--
+	renderRcKey(x + 30  , y + 185 , 'return'	, 'Return'		, 'Backspace'	, 8   + 1000, 0, null);
+	renderRcKey(x + 120 , y + 195 , 'up'		, 'Up'			, 'Up'			, 38  + 1000, 3, null);
+	renderRcKey(x + 210 , y + 185 , 'source'	, 'Source'		, 'Insert'		, 45  + 1000, 0, null);
+	//
+	renderRcKey(x + 50  , y + 235 , 'left'		, 'Left'		, 'Left'		, 37  + 1000, 3, null);
+	renderRcKey(x + 120 , y + 235 , 'enter'		, 'Enter'		, 'Enter'		, 13  + 1000, 3, null);
+	renderRcKey(x + 190 , y + 235 , 'right'		, 'Right'		, 'Right'		, 39  + 1000, 3, null);
+	//
+	renderRcKey(x + 30  , y + 285 , 'info'		, 'Info'		, 'F1'			, 112 + 1000, 0, null);
+	renderRcKey(x + 120 , y + 275 , 'down'		, 'Down'		, 'Down'		, 40  + 1000, 3, null);
+	renderRcKey(x + 210 , y + 285 , 'stop'		, 'Stop'		, 'End'			, 35  + 1000, 1, null);
+	//--
+	renderRcKey(x + 40  , y + 330 , 'volumeup'	, 'Volume +'	, 'PageUp'		, 33  + 1000, 0, null);
+	renderRcKey(x + 120 , y + 330 , 'mute'		, 'Mute'		, ' ~ '			, 96		, 0, null);
+	renderRcKey(x + 200 , y + 330 , 'play'		, 'Play'		, 'F2'			, 113 + 1000, 4, null);
+	//--
+	renderRcKey(x + 40  , y + 365 , 'volumedown', 'Volume -'	, 'PageDown'	, 34  + 1000, 0, null);
+	renderRcKey(x + 120 , y + 365 , 'time seek'	, 'Time Seek'	, 'F7'			, 118 + 1000, 0, null);
+	renderRcKey(x + 200 , y + 365 , 'pause'		, 'Pause'		, 'F3'			, 114 + 1000, 2, null);
+	//--
+	renderRcKey(x + 40  , y + 410 , 'menu'		, 'Menu'		, 'Shift+M'		, 77		, 0, null);
+	renderRcKey(x + 120 , y + 410 , 'prev'		, 'Prev'		, 'F5'			, 116 + 1000, 0, null);
+	renderRcKey(x + 200 , y + 410 , 'next'		, 'Next'		, 'F6'			, 117 + 1000, 0, null);
+	//--
+	renderRcKey(x + 40  , y + 445 , 'title'		, 'Title'		, 'Shift+T'		, 84 		, 0, null);
+	renderRcKey(x + 120 , y + 445 , 'repeat'	, 'Repeat'		, 'Shift+R'		, 82		, 0, null);
+	renderRcKey(x + 200 , y + 445 , 'angle'		, 'Angle'		, 'Shift+N'		, 78		, 0, null);
+	//--
+	renderRcKey(x + 40  , y + 480 , 'audio'		, 'Audio'		, 'Shift+A'		, 65		, 0, null);
+	renderRcKey(x + 120 , y + 480 , 'subtitle'	, 'Subtitle'	, 'Shift+B'		, 66		, 0, null);
+	renderRcKey(x + 200 , y + 480 , 'zoom'		, 'Zoom'		, 'Shift+Z'		, 90		, 0, null);
+
+	//
+	// Keyboard shortcuts
+
+	rcShortcut( 97, 'two,right');						// a
+	rcShortcut( 98, 'two,two,right');					// b
+	rcShortcut( 99, 'two,two,two,right');				// c
+
+	rcShortcut(100, 'three,right');						// d
+	rcShortcut(101, 'three,three,right');				// e
+	rcShortcut(102, 'three,three,three,right');			// f
+
+	rcShortcut(103, 'four,right');						// g
+	rcShortcut(104, 'four,four,right');					// h
+	rcShortcut(105, 'four,four,four,right');			// i
+
+	rcShortcut(106, 'five,right');						// j
+	rcShortcut(107, 'five,five,right');					// k
+	rcShortcut(108, 'five,five,five,right');			// l
+
+	rcShortcut(109, 'six,right');						// m
+	rcShortcut(110, 'six,six,right');					// n
+	rcShortcut(111, 'six,six,six,right');				// o
+
+	rcShortcut(112, 'seven,right');						// p
+	rcShortcut(113, 'seven,seven,right');				// q
+	rcShortcut(114, 'seven,seven,seven,right');			// r
+	rcShortcut(115, 'seven,seven,seven,seven,right');	// s
+
+	rcShortcut(116, 'eight,right');						// t
+	rcShortcut(117, 'eight,eight,right');				// u
+	rcShortcut(118, 'eight,eight,eight,right');			// v
+
+	rcShortcut(119, 'nine,right');						// w
+	rcShortcut(120, 'nine,nine,right');					// x
+	rcShortcut(121, 'nine,nine,nine,right');			// y
+	rcShortcut(122, 'nine,nine,nine,nine,right');		// z
+
+	rcShortcut( 32, 'zero,zero,right');					// Space
+
+	rcShortcut( 46, 'one,one,right');					// .
+	rcShortcut( 47, 'one,one,one,right');					// /
+	rcShortcut( 44, 'one,one,one,one,right');					// ,
+	rcShortcut( 58, 'one,one,one,one,one,right');					// :
+	rcShortcut( 45, 'one,one,one,one,one,one,right');					// -
+	rcShortcut( 95, 'one,one,one,one,one,one,one,right');					// _
+	rcShortcut( 63, 'one,one,one,one,one,one,one,one,right');					// ?
+	rcShortcut( 33, 'one,one,one,one,one,one,one,one,one,right');					// !
+	rcShortcut( 39, 'one,one,one,one,one,one,one,one,one,one,right');					// '
+	rcShortcut( 64, 'one,one,one,one,one,one,one,one,one,one,one,right');					// @
+	rcShortcut( 59, 'one,one,one,one,one,one,one,one,one,one,one,one,right');					// ;
+	rcShortcut( 40, 'one,one,one,one,one,one,one,one,one,one,one,one,one,right');					// (
+	rcShortcut( 41, 'one,one,one,one,one,one,one,one,one,one,one,one,one,one,right');					// )
+	rcShortcut( 91, 'one,one,one,one,one,one,one,one,one,one,one,one,one,one,one,right');					// [
+	rcShortcut( 93, 'one,one,one,one,one,one,one,one,one,one,one,one,one,one,one,one,right');					// ]
+	rcShortcut( 36, 'one,one,one,one,one,one,one,one,one,one,one,one,one,one,one,one,one,right');					// $
+	rcShortcut( 61, 'one,one,one,one,one,one,one,one,one,one,one,one,one,one,one,one,one,one,right');					// =
+	rcShortcut( 37, 'one,one,one,one,one,one,one,one,one,one,one,one,one,one,one,one,one,one,one,right');					// %
+	rcShortcut( 35, 'one,one,one,one,one,one,one,one,one,one,one,one,one,one,one,one,one,one,one,one,right');					// #
+
+}
+
+//                        0          1          2          3          4          5          6
+var rc_keys_colors = ['#AAAAAA', '#FF7777', '#7777FF', '#777777', '#77AA77', '#DDDD00', '#CCCCCC'];
+
+function renderRcKey(l, t, rc_key, rc_label, kbd_label, kbd_code, alt, domain) {
+	var text = '';
+	var id = 'b_rc_' + rc_key;
+
+	text += '<input id="' + id + '" class="c_rc_key" type="button" value="' + rc_label
+			+ '&#13;&#10;' + (kbd_label.length ? ('(' + kbd_label + ')') : ' ')
+			+ '" onclick="rcButtonPress(\'' + kbd_code + '\');">';
+
+	document.getElementById('b_l1').insertAdjacentHTML('afterbegin', text);
+
+	var k = document.getElementById(id);
+	k.style.left = l;
+	k.style.top  = t;
+	k.style.background = rc_keys_colors[alt];
+	
+	if (alt == 6) {
+		// silly decision
+		k.style.width   = 25;
+		k.style.height  = 35;
+	}
+
+	var o = new Object();
+	o.kbd_code		= kbd_code;
+	o.rc_key		= rc_key;
+	o.rc_key_domain	= domain;
+
+	rc_keys[kbd_code] = o;
+}
+
+function rcShortcut(kbd_code, rc_sequence) {
+	rc_keys[kbd_code] = { kbd_code : kbd_code, rc_key : rc_sequence, rc_key_domain : null /*'browser'*/ };
+}
+
+function rcKeyDown(e) {
+	var key = e.keyCode || e.which;
+	if (key == 17) {
+		toggleTumbler();
+		return;
+	}	
+	if (abns.Config.ref().get(abns.Config.BOX_RC) != 'on') return;
+	if (rc_keys[key + 1000] != 'undefined')
+		rcPressButton(rc_keys[key + 1000]);
+	return false;
+}
+
+function rcKeyPress(e) {
+	var key = e.charCode;
+	if (abns.Config.ref().get(abns.Config.BOX_RC) != 'on') return;
+	if (rc_keys[key] != 'undefined')
+		rcPressButton(rc_keys[key]);
+	return false;
+}
+
+function rcButtonPress(key) {
+	rcPressButton(rc_keys[key]);
+}
+
+function rcPressButton(o) {
+	var keys = o.rc_key.split(',');
+	for(var i = 0; i < keys.length; i++)
+		abns.WatchControl.chrome_rcKeyPress(keys[i], o.rc_key_domain);
+}
+
+</script>
+
+</head>
+
+<body onload="main();" onkeydown="rcKeyDown(event);" onkeypress="rcKeyPress(event);">
+
+<div id="b_c0" class="c_c0">
+<div id="b_l1" class="c_l1">
+  <div style="position:absolute;z-index:566;left:40px;top:15px;color:#77CC77;font-size:9px;"><b>Keyboard control activated (keys: a-z./,:-_?!'@;()[]$=%#)</b></div>
+  <div style="position:absolute;z-index:566;left:308px;top:42px;">(Ctrl)</div>
+  <div id="b_l1_tumbler" class="c_l1_tumbler"><a id="a_l1_tumbler" class="c_l1_tumbler" href="#" onclick="toggleTumbler();"></a></div>
+</div>
+<div id="b_r1" class="c_r1">
+  <div id="b_r1_hdr" class="c_r1_hdr"></div>
+  <div id="b_r1_url" class="c_r1_url"></div>
+  <div id="b_r1_wh"  class="c_r1_wh" ></div>
+</div>
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,52 @@
+<script src="abns.js" charset="utf-8" type="text/javascript"></script>
+
+<script>
+
+abns.setupConfigDefaults = function() {
+    ///
+    abns.Config.ref().initialize(abns.Config.HISTORY_SIZE, abns.WatchHistory.DEFAULT_SIZE);
+    abns.Config.ref().initialize(abns.Config.BOX_ADDRESS,  '192.168.1.200');
+};
+
+abns.setupContextMenus = function() {
+    chrome.contextMenus.create(
+        {
+            "title"		: "Watch Now",
+            "type"		: "normal",
+            "contexts"	: ["link"],
+            "onclick"	: function(info, tab) {
+                abns.WatchHistory.ref().put(info.linkUrl, info.pageUrl, tab.title);
+                abns.WatchControl.chrome_watchNow(info.linkUrl);
+            }
+        }
+    );
+    chrome.contextMenus.create(
+        {
+            "title"		: "Throw at list",
+            "type"		: "normal",
+            "contexts"	: ["link"],
+            "onclick"	: function(info, tab) {
+                abns.WatchHistory.ref().put(info.linkUrl, info.pageUrl, tab.title);
+            }
+        }
+    );
+    chrome.contextMenus.create(
+        {
+            "title"		: "Glance at",
+            "type"		: "normal",
+            "contexts"	: ["link"],
+            "onclick"	: function(info, tab) {
+                abns.WatchControl.chrome_watchNow(info.linkUrl);
+            }
+        }
+    );
+};
+
+///
+
+abns.setupConfigDefaults();
+abns.setupContextMenus();
+
+///
+
+</script>
