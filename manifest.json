@@ -1,6 +1,6 @@
 {
   "name": "Watch on Box",
-  "version": "0.1",
+  "version": "0.2",
   "description": "Watch on Box Google Chrome extension. Uses TheDavidBox API to control Syabas Popcorn Hour media player (A200)",
   "background_page": "background.html",
   "options_page": "options.html",

@@ -193,6 +193,11 @@ var TITLE_LIMIT = 95;
 abns.Config.BOX_RC  = 'box_rc';
 abns.Config.ref().initialize(abns.Config.BOX_RC, 'off');	// on/off
 
+var BOX_SS_TIMEOUT = 55 * 1000;	//milliseconds
+
+abns.Config.BOX_RC_LAST_TOUCH = 'box_rc_last_touch';
+abns.Config.ref().initialize(abns.Config.BOX_RC_LAST_TOUCH, timestamp());
+
 var rc_keys = new Array();
 var rc_keys_ready = false;
 
@@ -200,6 +205,10 @@ function prepareString(str, limit) {
     return (str.length > limit)
         ? str.substring(0, limit - 3) + '...'
         : str;
+}
+
+function timestamp() {
+	return +new Date();
 }
 
 ///
@@ -260,7 +269,9 @@ function main() {
 	document.getElementById('b_r1_hdr').innerHTML =
 		'<span style="font-weight:bold;">Box network address: '
 		+ prepareString(abns.Config.ref().get(abns.Config.BOX_ADDRESS), 33)
-		+ '</span>';
+		+ '</span>'
+//		+ '<span style="float:right;"><input type="button" value="In Tab.." class="in_url_btn2" style="font-weight:bold;" onclick="openInTab(\'popup.html\')"></span>'
+		+ '<span style="float:right;"><input type="button" value="Options.." class="in_url_btn2" style="font-weight:bold;" onclick="openInTab(\'options.html\');"></span>';
 
 	document.getElementById('b_r1_url').innerHTML =
 		'<span style="padding:0px 4px 5px 4px; font-weight:bold;">URL: <input id="input_url" type="text" name="url" value="" class="in_url" size="85" onkeypress="inUrlKeyPress(event)">'
@@ -533,9 +544,19 @@ function rcButtonPress(key) {
 }
 
 function rcPressButton(o) {
+	rcTouchScreensaver(timestamp());
+
 	var keys = o.rc_key.split(',');
 	for(var i = 0; i < keys.length; i++)
 		abns.WatchControl.chrome_rcKeyPress(keys[i], o.rc_key_domain);
+}
+
+function rcTouchScreensaver(cur) {
+	// will be forcing to exit screensaver if delta between commands exceeds SS timeout
+	if (BOX_SS_TIMEOUT < (cur - abns.Config.ref().get(abns.Config.BOX_RC_LAST_TOUCH))) {
+		abns.WatchControl.chrome_rcKeyPress("nonsense", "screen_saver");
+	}	
+	abns.Config.ref().set(abns.Config.BOX_RC_LAST_TOUCH, cur);
 }
 
 </script>
